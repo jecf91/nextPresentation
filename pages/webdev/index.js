@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import ArticleList from '../components/Article/List';
+import ArticleList from '../../components/Article/List';
+import { server } from '../../config';
 
 export default function Home({ articles }) {
   return (
@@ -11,15 +12,13 @@ export default function Home({ articles }) {
           content="web dev, programming, development, front-end"
         />
       </Head>
-      <ArticleList path="article" articles={articles} />
+      <ArticleList path="webdev" articles={articles} />
     </div>
   );
 }
 
-export async function getStaticProps() {
-  const response = await fetch(
-    'https://jsonplaceholder.typicode.com/posts?_limit=6'
-  );
+export async function getServerSideProps() {
+  const response = await fetch(`${server}/api/webdevarticles`);
   const articles = await response.json();
 
   return {
